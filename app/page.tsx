@@ -17,23 +17,23 @@ export default async function Home() {
   return (
     <div className="container mx-auto py-8 space-y-8">
       <div className="grid gap-8 md:grid-cols-2">
-        <div className="space-y-2">
+        <div className="space-y-2 mx-8">
           <h2 className="text-2xl font-bold tracking-tight">Add a Credit Card</h2>
           <AddCard />
         </div>
-        <div className="space-y-2">
+        <div className="space-y-2 mx-8">
           <h2 className="text-2xl font-bold tracking-tight">Add a Password</h2>
           <AddPassword />
         </div>
       </div>
       <div className="grid gap-8 md:grid-cols-2">
-        <div className="space-y-2">
+        <div className="space-y-2 mx-8">
           <h2 className="text-2xl font-bold tracking-tight">Your Cards</h2>
-          <YourCards cards={user?.privateMetadata.cards}/>
+          <YourCards cards={Array.isArray(user?.privateMetadata.cards)? user?.privateMetadata.cards:[]}/>
         </div>
-        <div className="space-y-2">
+        <div className="space-y-2 mx-8">
           <h2 className="text-2xl font-bold tracking-tight">Your Passwords</h2>
-          <YourPasswords passwords={user?.privateMetadata.passwords}/>
+          <YourPasswords passwords={Array.isArray(user?.privateMetadata.passwords)?user?.privateMetadata.passwords:[]}/>
         </div>
       </div>
     </div>

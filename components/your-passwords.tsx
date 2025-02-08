@@ -5,38 +5,35 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { KeyRound, Trash2, Copy, Eye, EyeOff } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import toast from "react-hot-toast"
+import Link from "next/link"
 
-// Mock data - replace with actual data from your backend
-const passwords = [
-  {
-    id: 1,
-    website: "example.com",
-    username: "johndoe@example.com",
-    password: "password123",
-  },
-  {
-    id: 2,
-    website: "github.com",
-    username: "janedoe",
-    password: "securepass456",
-  },
-]
+interface Password {
+  website: string
+  username: string
+  password: string
+}
 
-export function YourPasswords() {
-  const [visiblePasswords, setVisiblePasswords] = useState<number[]>([])
+export function YourPasswords({ passwords }: { passwords: Password[] }) {
+  const [visiblePasswords, setVisiblePasswords] = useState<string[]>([])
 
-  const togglePasswordVisibility = (id: number) => {
-    setVisiblePasswords((prev) => (prev.includes(id) ? prev.filter((p) => p !== id) : [...prev, id]))
+  const togglePasswordVisibility = (website: string) => {
+    setVisiblePasswords((prev) =>
+      prev.includes(website) ? prev.filter((p) => p !== website) : [...prev, website]
+    )
   }
 
   const handleCopy = async (text: string) => {
-    await navigator.clipboard.writeText(text)
-    // You might want to add a toast notification here
+    try {
+      await navigator.clipboard.writeText(text)
+      toast.success("Password copied!") // Replace with toast notification if needed
+    } catch (error) {
+      toast.error("Failed to copy password")
+    }
   }
 
-  const handleDelete = (id: number) => {
-    // Handle password deletion logic here
-    console.log("Delete password:", id)
+  const handleDelete = (website: string) => {
+    console.log("Delete password:", website)
   }
 
   return (
@@ -48,19 +45,21 @@ export function YourPasswords() {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="space-y-4">
+        <div className="space-y-4 h-44 overflow-scroll overflow-x-hidden custom-scrollbar">
           {passwords.map((item) => (
             <div
-              key={item.id}
+              key={item.website} // ✅ Unique Key
               className="flex flex-col space-y-2 p-4 rounded-lg border bg-card text-card-foreground shadow-sm"
             >
               <div className="flex items-center justify-between">
-                <h3 className="font-medium">{item.website}</h3>
+                <Link href={item.website} target="_blank">
+                <h3  className="font-medium cursor-pointer text-blue-700 underline">{item.website}</h3>
+                </Link>
                 <Button
                   variant="ghost"
                   size="icon"
                   className="text-destructive hover:text-destructive hover:bg-destructive/10"
-                  onClick={() => handleDelete(item.id)}
+                  onClick={() => handleDelete(item.website)}
                 >
                   <Trash2 className="h-4 w-4" />
                 </Button>
@@ -68,13 +67,13 @@ export function YourPasswords() {
               <p className="text-sm text-muted-foreground">{item.username}</p>
               <div className="flex items-center gap-2">
                 <Input
-                  type={visiblePasswords.includes(item.id) ? "text" : "password"}
+                  type={visiblePasswords.includes(item.website) ? "text" : "password"}
                   value={item.password}
                   readOnly
                   className="flex-1"
                 />
-                <Button variant="ghost" size="icon" onClick={() => togglePasswordVisibility(item.id)}>
-                  {visiblePasswords.includes(item.id) ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                <Button variant="ghost" size="icon" onClick={() => togglePasswordVisibility(item.website)}>
+                  {visiblePasswords.includes(item.website) ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                 </Button>
                 <Button variant="ghost" size="icon" onClick={() => handleCopy(item.password)}>
                   <Copy className="h-4 w-4" />
@@ -87,4 +86,3 @@ export function YourPasswords() {
     </Card>
   )
 }
-

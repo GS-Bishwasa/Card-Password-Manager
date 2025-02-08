@@ -4,16 +4,25 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { CreditCard, Trash2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
-interface CardProps{
-  cardNo:string,
-  holdername:string,
-  expiry:string
+interface CardProps {
+  cardNo: string,
+  holdername: string,
+  expiry: string
 }
 
-export function YourCards({cards}: {cards:CardProps[]}) {
-  const handleDelete = (id: number) => {
-    // Handle card deletion logic here
-    console.log("Delete card:", id)
+export function YourCards({ cards }: { cards: CardProps[] }) {
+  const handleDelete = async (cardNo: string) => {
+    try {
+      // You can add your API call here to delete the card
+      // Example:
+      // await deleteCard(cardNo);
+      console.log("Deleting card:", cardNo)
+
+      // You might want to trigger a refresh of the cards list
+      // or update the local state after successful deletion
+    } catch (error) {
+      console.error("Error deleting card:", error)
+    }
   }
 
   return (
@@ -25,10 +34,9 @@ export function YourCards({cards}: {cards:CardProps[]}) {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="space-y-4">
-          {cards.map((card: CardProps) => (
-            <div
-              key={card.cardNo}
+        <div className="space-y-4 h-44 overflow-scroll overflow-x-hidden custom-scrollbar">
+          {cards.map((card, index) => (
+            <div key={`${card.cardNo}-${index}`}
               className="flex items-center justify-between p-4 rounded-lg border bg-card text-card-foreground shadow-sm"
             >
               <div className="space-y-1">
@@ -40,7 +48,7 @@ export function YourCards({cards}: {cards:CardProps[]}) {
                 variant="ghost"
                 size="icon"
                 className="text-destructive hover:text-destructive hover:bg-destructive/10"
-                onClick={() => handleDelete(card.id)}
+                onClick={() => handleDelete(card.cardNo)}
               >
                 <Trash2 className="h-4 w-4" />
               </Button>

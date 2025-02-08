@@ -11,7 +11,7 @@ const Navbar = () => {
 
 
   return (
-    <nav className="bg-primary/40 text-foreground flex justify-between items-center px-4 h-16 ">
+    <nav className="bg-purple-500 text-white flex justify-between items-center px-4 h-16 sticky ">
       <span>GSBPass</span>
       <ul className="flex gap-5 items-center justify-start">
         <li>Home</li>
@@ -49,7 +49,7 @@ const Navbar = () => {
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu> */}
-       <Button variant="outline" size="icon" onClick={() => setTheme(theme === "light" ? "dark" : "light")}>
+       <Button className="text-foreground" variant="outline" size="icon" onClick={() => setTheme(theme === "light" ? "dark" : "light")}>
       <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
       <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
       <span className="sr-only">Toggle theme</span>

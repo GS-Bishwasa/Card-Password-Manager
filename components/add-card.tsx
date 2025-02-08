@@ -21,6 +21,7 @@ import {
 import { addCardServer } from "@/actions/actions"
 import { useUser } from "@clerk/nextjs"
 import toast from "react-hot-toast"
+import { useRouter } from "next/navigation"
 
 const formSchema = z.object({
   cardNumber: z
@@ -59,6 +60,7 @@ const formSchema = z.object({
 
 
 export function AddCard() {
+  const router = useRouter()
  const user = useUser()
 
   // 1. Define your form.
@@ -82,6 +84,7 @@ defaultValues:{
       addCardServer(values.cardNumber,values.expiryDate,values.holderName,values.cvv, user?.user?.id)
       toast.success("Card Added!")
       form.reset()
+      router.refresh()
     }
   }
 
