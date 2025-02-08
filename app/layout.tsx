@@ -1,5 +1,6 @@
 import Navbar from '@/components/Navbar'
 import { ThemeProvider } from "@/components/theme-provider"
+import {Toaster} from "react-hot-toast"
 import {
   ClerkProvider,
   SignInButton,
@@ -17,13 +18,17 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body>
-          <Navbar/>
           <ThemeProvider
             attribute="class"
             defaultTheme="system"
             enableSystem
             disableTransitionOnChange
-          >
+            >
+            <Navbar/>
+            <Toaster
+  position="top-center"
+  reverseOrder={false}
+/>
             {children}
           </ThemeProvider>
           {/* <SignedOut>

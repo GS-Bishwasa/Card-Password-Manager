@@ -2,8 +2,18 @@ import { AddCard } from "@/components/add-card"
 import { AddPassword } from "@/components/add-password"
 import { YourCards } from "@/components/your-cards"
 import { YourPasswords } from "@/components/your-passwords"
+import { Metadata } from "next"
+import { currentUser } from "@clerk/nextjs/server"
 
-export default function Home() {
+export const metadata: Metadata = {
+  title: 'NoPass - Home',
+  description: 'Home page for Password Managerre',
+}
+
+
+export default async function Home() {
+  const user =await currentUser()
+  console.log(user?.privateMetadata)
   return (
     <div className="container mx-auto py-8 space-y-8">
       <div className="grid gap-8 md:grid-cols-2">
@@ -19,11 +29,11 @@ export default function Home() {
       <div className="grid gap-8 md:grid-cols-2">
         <div className="space-y-2">
           <h2 className="text-2xl font-bold tracking-tight">Your Cards</h2>
-          <YourCards />
+          <YourCards cards={user?.privateMetadata.cards}/>
         </div>
         <div className="space-y-2">
           <h2 className="text-2xl font-bold tracking-tight">Your Passwords</h2>
-          <YourPasswords />
+          <YourPasswords passwords={user?.privateMetadata.passwords}/>
         </div>
       </div>
     </div>

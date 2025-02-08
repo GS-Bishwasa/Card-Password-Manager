@@ -4,23 +4,13 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { CreditCard, Trash2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
-// Mock data - replace with actual data from your backend
-const cards = [
-  {
-    id: 1,
-    cardNumber: "**** **** **** 1234",
-    cardHolder: "John Doe",
-    expiryDate: "12/25",
-  },
-  {
-    id: 2,
-    cardNumber: "**** **** **** 5678",
-    cardHolder: "Jane Smith",
-    expiryDate: "03/24",
-  },
-]
+interface CardProps{
+  cardNo:string,
+  holdername:string,
+  expiry:string
+}
 
-export function YourCards() {
+export function YourCards({cards}: {cards:CardProps[]}) {
   const handleDelete = (id: number) => {
     // Handle card deletion logic here
     console.log("Delete card:", id)
@@ -36,15 +26,15 @@ export function YourCards() {
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
-          {cards.map((card) => (
+          {cards.map((card: CardProps) => (
             <div
-              key={card.id}
+              key={card.cardNo}
               className="flex items-center justify-between p-4 rounded-lg border bg-card text-card-foreground shadow-sm"
             >
               <div className="space-y-1">
-                <p className="font-medium">{card.cardNumber}</p>
-                <p className="text-sm text-muted-foreground">{card.cardHolder}</p>
-                <p className="text-sm text-muted-foreground">Expires: {card.expiryDate}</p>
+                <p className="font-medium">{card.cardNo}</p>
+                <p className="text-sm text-muted-foreground">{card.holdername}</p>
+                <p className="text-sm text-muted-foreground">Expires: {card.expiry}</p>
               </div>
               <Button
                 variant="ghost"

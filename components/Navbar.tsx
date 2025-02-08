@@ -2,20 +2,13 @@
 import React from "react";
 import { Moon, Sun } from "lucide-react"
 import { useTheme } from "next-themes"
-
-
 import { Button } from "@/components/ui/button"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
 import { SignInButton } from "@clerk/nextjs";
 import { SignedIn, SignedOut, SignUpButton, UserButton } from "@clerk/clerk-react";
 
 const Navbar = () => {
     const { theme, setTheme } = useTheme()
+
 
   return (
     <nav className="bg-primary/40 text-foreground flex justify-between items-center px-4 h-16 ">
